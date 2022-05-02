@@ -1,25 +1,29 @@
 package com.quest.etna.model;
 
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Tag {
+
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    int id;
+    @Column(columnDefinition = "text")
+    private String body;
+    @Column()
+    private String value;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
 
-    @ManyToMany
-    private List<Project> projects = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "id_project", nullable = false)
+    private Project project;
 
     @CreationTimestamp
     LocalDateTime creation_date;
@@ -47,4 +51,5 @@ public class Tag {
         this.updated_date = LocalDateTime.now();
         ;
     }
+
 }

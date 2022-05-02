@@ -44,9 +44,14 @@ public class User {
    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     LocalDateTime updated_date;
 
+    @OneToMany(mappedBy="user")
+    private Set<Skill> skills;
 
-//    @ManyToMany
-//    Set<Tag> tag;
+    @OneToMany(mappedBy="user")
+    private Set<Review> reviews;
+
+    @OneToMany(mappedBy="user")
+    private Set<Project> projects;
 
 
     public User() {}

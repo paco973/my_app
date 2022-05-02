@@ -43,9 +43,6 @@ public class AuthenticationController {
         HashMap<String, String> response = new HashMap<String, String>();
         String username = user.getUsername();
         String email = user.getEmail();
-        System.out.println(email);
-        System.out.println(username);
-        System.out.println(user.getPassword() );
 
         //400
         if (username == null || user.getPassword() == null) {
@@ -60,11 +57,11 @@ public class AuthenticationController {
         }
         //201
         else {
-            System.out.println("ici");
+
             User user1 = new User(username, passwordEncoderS.passwordEncoder().encode(user.getPassword()), email);
-            System.out.println("ici1");
+
             userRepository.save(user1);
-            System.out.println("ic2");
+
             authService.setupUser(user.getUsername(),
                     user.getPassword());
 
