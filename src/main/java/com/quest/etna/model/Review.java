@@ -31,7 +31,64 @@ public class Review {
     @UpdateTimestamp
     LocalDateTime updated_date;
 
-    public LocalDateTime getcreation_date() {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public LocalDateTime getCreation_date() {
+		return creation_date;
+	}
+
+	public void setCreation_date(LocalDateTime creation_date) {
+		this.creation_date = creation_date;
+	}
+
+	public LocalDateTime getUpdated_date() {
+		return updated_date;
+	}
+
+	public void setUpdated_date(LocalDateTime updated_date) {
+		this.updated_date = updated_date;
+	}
+    
+
+    /*public LocalDateTime getcreation_date() {
         return creation_date;
     }
 
@@ -50,6 +107,6 @@ public class Review {
     public void update_date() {
         this.updated_date = LocalDateTime.now();
         ;
-    }
+    }*/
 
 }
