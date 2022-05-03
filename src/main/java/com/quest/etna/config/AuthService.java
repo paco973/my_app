@@ -40,7 +40,7 @@ public class AuthService {
     }
 
     public String getValidToken() throws Exception {
-        System.out.println(this.password);
+
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(this.username, this.password)
         );

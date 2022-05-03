@@ -3,16 +3,18 @@ package com.quest.etna.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.quest.etna.config.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class JwtUserDetails implements UserDetails {
 
-    /**
-     *
-     */
+
+
     private static final long serialVersionUID = 1L;
     private final User user;
+    private String token;
     private final org.springframework.security.core.userdetails.User securityUser;
 
     public JwtUserDetails(User user) {

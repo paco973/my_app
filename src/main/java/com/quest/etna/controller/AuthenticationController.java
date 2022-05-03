@@ -74,7 +74,7 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("/me")
+    @PostMapping("/me")
     ResponseEntity<?> authenticate(@RequestBody User user) {
         try {
 
