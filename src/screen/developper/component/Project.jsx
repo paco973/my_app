@@ -1,20 +1,20 @@
-const bold = {'font-weight': 'bold'}
+const bold = {'fontWeight': 'bold'}
 
-export function Project(){
+export function Project({project}){
     return <div className="column">
                                     <div className="card project">
                                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                         <a href="#" className="project">
-                                            <img className="project__thumbnail" src=""
+                                            <img className="project__thumbnail" src={project.image}
                                                  alt="project thumbnail"/>
                                             <div className="card__body">
-                                                <h3 className="project__title">DevSearch UI Design</h3>
+                                                <h3 className="project__title">{project.title}</h3>
                                                 <p><a className="project__author" href="">By Shahriar P.
                                                     Shuvo</a></p>
                                                 <p className="project--rating">
                                                     {/* eslint-disable-next-line react/style-prop-object */}
-                                                    <span style={bold}>92%</span> Postitive
-                                                    Feedback (62 Votes)
+                                                    <span style={bold}>{project.vote_ration}%</span> Postitive
+                                                    Feedback ({project.vote_total} Votes)
                                                 </p>
                                                 <div className="project__tags">
                         <span className="tag tag--pill tag--main">

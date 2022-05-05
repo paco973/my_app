@@ -1,32 +1,38 @@
 import {Component} from "react";
-import {Nav} from "../main/component/Nav";
+
 import {Me} from "./component/Me";
 import {About} from "./component/About";
 import {Skill} from "./component/Skill";
 import {ProjectList} from "./component/PorjectList";
 import {Project} from "./component/Project";
+import {USER} from "../../user";
+import {useParams} from "react-router-dom";
 
 
-export class Developper extends Component {
-    // eslint-disable-next-line no-useless-constructor
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return <div>
-     
-            <main className="profile my-md">
+
+
+
+
+export function Developer()  {
+         let { id } = useParams()
+
+
+    let user = USER.filter(profile => profile.id == id)[0]
+
+        return <main className="profile my-md">
                 <div className="container">
                     <div className="layout">
-                        <Me/>
+                        <Me user={user}/>
                         <div className="column column--2of3">
-                            <About/>
+                            <About>{user.bio}</About>
                             <Skill/>
-                            <ProjectList><Project/></ProjectList>
+                            <ProjectList>
+                            {user.projects.map(project => <Project key={project.id} project={project}/> )}
+                            </ProjectList>
                         </div>
                     </div>
                 </div>
             </main>
-        </div>
+
     }
-}
+

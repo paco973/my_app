@@ -8,33 +8,8 @@ import {Nav} from "./component/Nav";
 import {DevList} from "./component/DevList";
 import {Dev} from "./component/Deve";
 import {Search} from "./component/Search";
+import {USER} from "../../user";
 
-
-const paco = [{
-    id: 1,
-    name: 'Shahriar P. Shuvo',
-    title: 'FullStack Web Designer & Developer',
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt, veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate animi, exercitationem molestias nam doloremque architecto odit.',
-    tag: ['JavaScript', 'React', 'Scss', 'Nodejs', 'Express', 'GrapQl']
-}, {
-    id: 2,
-    name: 'paco',
-    title: 'FullStack Web Designer & Developer',
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt, veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate animi, exercitationem molestias nam doloremque architecto odit.',
-    tag: ['JavaScript', 'React', 'Scss', 'Nodejs', 'Express', 'GrapQl']
-}, {
-    id: 3,
-    name: 'djo',
-    title: 'FullStack Web Designer & Developer',
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt, veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate animi, exercitationem molestias nam doloremque architecto odit.',
-    tag: ['JavaScript', 'React', 'Scss', 'Nodejs', 'Express', 'GrapQl']
-}, {
-    id: 4,
-    name: 'Nestor',
-    title: 'FullStack Web Designer & Developer',
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt, veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate animi, exercitationem molestias nam doloremque architecto odit.',
-    tag: ['JavaScript', 'React', 'Scss', 'Nodejs', 'Express', 'GrapQl']
-}]
 
 export class Main extends Component {
 
@@ -56,8 +31,8 @@ export class Main extends Component {
                 <Search filtre={this.state.filtre} handleSeardev={this.handleSeardev}/>
                 <DevList>
 
-                    {paco.filter(profile => {
-                        return profile.name.toLowerCase().includes(this.state.filtre.toLowerCase());
+                    {USER.filter(user => {
+                        return user.username.toLowerCase().includes(this.state.filtre.toLowerCase());
                     }).map((pro) => {
                             return <Dev key={pro.id} profile={pro}/>
                         }

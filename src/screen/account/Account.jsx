@@ -1,4 +1,10 @@
 import {Component} from "react";
+import {SkillsList} from "./component/SkillsList";
+import {Skill} from "./component/Skill";
+import {MyProjectList} from "./component/MyProjectList";
+import {Myproject} from "./component/Myproject";
+
+const paco = [1, 2,3]
 
 export class Account extends Component{
     render() {
@@ -16,10 +22,6 @@ export class Account extends Component{
                                 <h2 className="dev__name">Paco DJO</h2>
                                 <p className="dev__title">Expirance FullStack Developer, Youtuber and Instructor</p>
                                 <p className="dev__location">Based in Lyon</p>
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -39,27 +41,10 @@ export class Account extends Component{
                                 className="im im-plus"></i> Add Skill</a>
                         </div>
 
-                        <table className="settings__table">
 
-                            <tr>
-                                <td className="settings__tableInfo">
-                                    <h4>JavaScript</h4>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae neque voluptatum ut? Quaerat, ea cumque! Dolorum provident esse molestias commodi odit sapiente quod quasi corrupti obcaecati? Nobis ex temporibus quaerat!
-                                    </p>
-                                </td>
-                                <td className="settings__tableActions">
-                                    <a className="tag tag--pill tag--main settings__btn"
-                                       href=""><i
-                                        className="im im-edit"></i> Edit</a>
-                                    <a className="tag tag--pill tag--main settings__btn"
-                                       href=""><i
-                                        className="im im-x-mark-circle-o"></i>
-                                        Delete</a>
-                                </td>
-                            </tr>
-
-                        </table>
+                      <SkillsList>
+                          {paco.map((test, index) => <Skill key={index}/>)}
+                      </SkillsList>
 
                         <div className="settings">
                             <h3 className="settings__title">Projects</h3>
@@ -68,31 +53,7 @@ export class Account extends Component{
                                 className="im im-plus"></i> Add Project</a>
                         </div>
 
-                        <table className="settings__table">
-
-                            <tr>
-                                <td className="settings__thumbnail">
-                                    <a href=""><img src=""
-                                                                                  alt="Project Thumbnail"/></a>
-                                </td>
-                                <td className="settings__tableInfo">
-                                    <a href="">What is Lorem Ipsum?</a>
-                                    <p>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </td>
-                                <td className="settings__tableActions">
-                                    <a className="tag tag--pill tag--main settings__btn"
-                                       href=""><i
-                                        className="im im-edit"></i> Edit</a>
-                                    <a className="tag tag--pill tag--main settings__btn"
-                                       href=""><i
-                                        className="im im-x-mark-circle-o"></i>
-                                        Delete</a>
-                                </td>
-                            </tr>
-
-
-                        </table>
+                      <MyProjectList><Myproject/></MyProjectList>
                     </div>
                 </div>
             </div>

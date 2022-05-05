@@ -1,12 +1,12 @@
-export function Me(){
+export function Me({user}){
     return <div className="column column--1of3">
                         <div className="card text-center">
                             <div className="card__body dev">
                                 <img className="avatar avatar--xl"
-                                     src="https://avatars.githubusercontent.com/u/33843378"/>
-                                <h2 className="dev__name">Dennis Ivanov</h2>
-                                <p className="dev__title">Expirance FullStack Developer, Youtuber and Instructor</p>
-                                <p className="dev__location">Based in Florida, USA</p>
+                                     src={user.image}/>
+                                <h2 className="dev__name">{user.username}</h2>
+                                <p className="dev__title">{user.title}</p>
+                                <p className="dev__location">Based in {user.location}</p>
                                 <ul className="dev__social">
                                     <li>
                                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
