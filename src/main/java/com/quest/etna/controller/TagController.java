@@ -32,13 +32,8 @@ public class TagController {
     @PostMapping(value="/tag")
     public ResponseEntity<?> addtag(@RequestBody Tag tag) {
         try {
-            JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication().getPrincipal();
-            String userName = userDetails.getUsername();
-            Optional<User> user = userRepository.findByUsername(userName);
-            if (user.get().getRole() == UserRole.ROLE_USER )
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new Error("Utilisateur non habilité"));
+            if (ProjectController.userDetailsCon(userRepository)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Error("Utilisateur non habilité"));
             return this.tagService.createTag(tag);
         }
         catch (Exception ex) {
@@ -53,13 +48,8 @@ public class TagController {
     @DeleteMapping("/tag/{id}")
     ResponseEntity<?> removeTagById(@PathVariable int id){
         try {
-            JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication().getPrincipal();
-            String userName = userDetails.getUsername();
-            Optional<User> user = userRepository.findByUsername(userName);
-            if (user.get().getRole() == UserRole.ROLE_USER )
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new Error("Utilisateur non habilité"));
+            if (ProjectController.userDetailsCon(userRepository)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Error("Utilisateur non habilité"));
             return tagService.delete(id);
         }
         catch (Exception ex) {

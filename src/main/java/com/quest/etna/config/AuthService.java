@@ -39,13 +39,11 @@ public class AuthService {
         this.userDetails = new JwtUserDetails(user.get());
     }
 
-    public String getValidToken() throws Exception {
-        System.out.println(this.password);
+    public String getValidToken() {
+
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(this.username, this.password)
         );
-
-
         return jwtTokenUtil.generateToken(this.userDetails);
     }
 }

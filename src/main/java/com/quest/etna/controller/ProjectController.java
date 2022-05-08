@@ -30,16 +30,9 @@ public class ProjectController {
     }
 
     @PostMapping(value="/project")
-    public ResponseEntity<?> addProject(@RequestBody List<Tag> tags, Project project) {
+    public ResponseEntity<?> addProject(@RequestBody Project project) {
         try {
-            JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication().getPrincipal();
-            String userName = userDetails.getUsername();
-            Optional<User> user = userRepository.findByUsername(userName);
-            if (user.get().getRole() == UserRole.ROLE_USER )
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new Error("Utilisateur non habilité"));
-            return this.projectService.createProject(project, tags);
+            return this.projectService.createProject(project, getUser(userRepository));
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -47,6 +40,24 @@ public class ProjectController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Error("Mauvaise requête"));
         }
+    }
+
+    static boolean userDetailsCon(UserRepository userRepository) {
+        JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        Optional<User> user = userRepository.findByUsername(userName);
+        if (user.get().getRole() == UserRole.ROLE_USER )
+            return true;
+        return false;
+    }
+
+    static User getUser(UserRepository userRepository) {
+        JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        Optional<User> user = userRepository.findByUsername(userName);
+        return user.get();
     }
 
 
@@ -69,5 +80,7 @@ public class ProjectController {
                     .body(new Error("Mauvaise requête"));
         }
     }
+
+
 
 }

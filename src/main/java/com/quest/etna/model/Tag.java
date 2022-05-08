@@ -35,7 +35,7 @@ public class Tag {
 	public Tag(String name){
 		this.name = name;
 		this.updated_date = LocalDateTime.now();
-		this.creation_date = LocalDateTime.now();;
+		this.creation_date = LocalDateTime.now();
 
 	}
 
