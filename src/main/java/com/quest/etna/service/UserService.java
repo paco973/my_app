@@ -25,8 +25,9 @@ public class UserService  {
     }
 
 
-	public List<User> getList(Integer page, Integer limit) {
-		return null;
+	public List<User> getList() {
+
+		return userRepository.findAll();
 	}
 
 

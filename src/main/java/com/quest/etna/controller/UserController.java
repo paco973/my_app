@@ -27,7 +27,8 @@ public class UserController {
 	@GetMapping("/all")
 	@ResponseStatus(HttpStatus.OK)
 	public List<User> getList(@RequestParam(defaultValue="0") Integer page , @RequestParam(defaultValue="5") Integer limit){
-		return userService.getList(page, limit);
+		return userService.getList(
+		);
 	}
 
 	@GetMapping("/{name}")
