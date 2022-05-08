@@ -1,7 +1,8 @@
-import {Outlet, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 export function Nav() {
+
     return <header className="header">
         <div className="container container--narrow">
             <Link to={'/'} className="header__logo">
@@ -31,7 +32,7 @@ export function Nav() {
                     </li>
                 </ul>
             </nav>
-            <Outlet/>
+            {/*<Outlet/>*/}
         </div>
     </header>
 }

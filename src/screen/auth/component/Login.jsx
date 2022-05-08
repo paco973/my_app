@@ -5,23 +5,23 @@ import Loader from "../../../component/Loader";
 import {Message} from "../../../component/Message";
 import {Link} from "react-router-dom";
 
-export function Login({ location, history }){
+export function Login({  history }){
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
 
-   // const redirect = location.search ? location.search.split('=')[1] : '/'
+   const redirect = '/account' //.search ? location.search.split('=')[1] : '/'
 
     const userLogin = useSelector(state => state.userLogin)
     const { error, loading, userInfo } = userLogin
-    //
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         history.push(redirect)
-    //     }
-    // }, [history, userInfo, redirect])
+
+    useEffect(() => {
+        if (userInfo) {
+            history.push(redirect)
+        }
+    }, [history, userInfo, redirect])
 
     const submitHandler = (e) => {
         e.preventDefault()

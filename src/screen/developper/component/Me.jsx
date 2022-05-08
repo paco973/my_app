@@ -3,7 +3,7 @@ export function Me({user}){
                         <div className="card text-center">
                             <div className="card__body dev">
                                 <img className="avatar avatar--xl"
-                                     src={user.image}/>
+                                     src={user.photo} alt={user.username}/>
                                 <h2 className="dev__name">{user.username}</h2>
                                 <p className="dev__title">{user.title}</p>
                                 <p className="dev__location">Based in {user.location}</p>

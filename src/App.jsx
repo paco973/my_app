@@ -11,11 +11,10 @@ import {Developer} from "./screen/developper/Developper";
 import {Nav} from "./screen/main/component/Nav";
 import {Auth} from "./screen/auth/Auth";
 import {Account} from "./screen/account/Account";
-import {Singup} from "./screen/register/Singup";
-import {Projects} from "./screen/project/Projects";
-import {PorjectForm} from "./screen/project/PorjectForm";
-import {ProfileForm} from "./screen/account/ProfileForm";
+
 import {SkillForm} from "./screen/account/SkillForm";
+import {Singup} from "./screen/register/Singup";
+
 
 function App() {
     return <BrowserRouter>
@@ -29,7 +28,5 @@ function App() {
                     <Route path="/register" element={<Singup/>}/>
                 </Routes>
             </BrowserRouter>
-
-
 }
 export default App;

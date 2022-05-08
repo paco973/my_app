@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Message} from "../../component/Message";
-import Loader from "../../component/Loader";
-import {register} from '../../action/userActions'
+import {Message} from "../../../component/Message";
+import Loader from "../../../component/Loader";
+import { register } from '../../../action/userActions'
 import {Link} from "react-router-dom";
 
-export  function Singup({location, history}) {
+export function Singup({ location, history }) {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -15,10 +15,10 @@ export  function Singup({location, history}) {
 
     const dispatch = useDispatch()
 
-    const redirect = location  || '/'//.search ? location.search.split('=')[1] : '/'
+    const redirect = location//.search ? location.search.split('=')[1] : '/'
 
     const userRegister = useSelector(state => state.userRegister)
-    const {error, loading, userInfo} = userRegister
+    const { error, loading, userInfo } = userRegister
 
     useEffect(() => {
         if (userInfo) {
@@ -37,10 +37,9 @@ export  function Singup({location, history}) {
 
     }
 
-    return <div className="auth">
-        <div className="card">
+    return <>
             <div className="auth__header text-center">
-                <a href="/Users/pacodjo/Documents/react/react/my-app/public">
+                <a href="/">
 
                     <img src="images/icon.svg" alt="icon"/>
 
@@ -52,7 +51,7 @@ export  function Singup({location, history}) {
 
                 {message && <Message variant='danger'>{message}</Message>}
                 {error && <Message variant='danger'>{error}</Message>}
-                {loading && <Loader/>}
+                {loading && <Loader />}
 
             </div>
             <form onSubmit={submitHandler} className="form auth__form">
@@ -62,7 +61,7 @@ export  function Singup({location, history}) {
 
                     <label htmlFor="formInput#text">Full Name: </label>
 
-                    <input className="input input--text" id="formInput#text" name="text"
+                    <input className="input input--text" id="formInput#text"  name="text"
                            required
                            type='text'
                            value={name}
@@ -70,6 +69,7 @@ export  function Singup({location, history}) {
                            placeholder="e.g. Paco DJO"/>
 
                 </div>
+
 
 
                 <div className="form__field">
@@ -89,7 +89,7 @@ export  function Singup({location, history}) {
 
                     <label htmlFor="formInput#password">Password: </label>
 
-                    <input className="input input--password" id="formInput#passowrd"  type='password'
+                    <input className="input input--password" id="formInput#passowrd" type="password" type='password'
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
                            placeholder="••••••••"/>
@@ -116,10 +116,9 @@ export  function Singup({location, history}) {
 
             <div className="auth__alternative">
                 <p>Already have an Account?</p>
-                <Link to="/login">Log In</Link>
+                <Link to="/register">Log In</Link>
             </div>
-        </div>
-    </div>
+        </>
 
 
 }

@@ -2,7 +2,7 @@ export function PorjectForm(){
     return <main className="formPage my-xl">
         <div className="content-box">
             <div className="formWrapper">
-                <a className="backButton" href="#"><i className="im im-angle-left"></i></a>
+                <a className="backButton" href="https://www.google.fr/"><i className="im im-angle-left"></i></a>
                 <br/>
 
                     <form className="form" method="POST" encType="multipart/form-data">

@@ -1,44 +1,42 @@
-
-// import {USER} from "../../user";
-
-
 import {Message} from "../../component/Message";
 import Loader from "../../component/Loader";
 import {Search} from "./component/Search";
 import {DevList} from "./component/DevList";
-import {USER} from "../../user";
 import {Dev} from "./component/Deve";
 import {listUsers} from "../../action/userActions";
-// import {useEffect} from "react";
-import { useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import React, {  useEffect } from 'react'
 
-export function Main({history}) {
+ export function Main() {
 
-    // const dispatch = useDispatch()
-    const userList = useSelector(state => state.userList)
-    const {error, loading, products, page, pages} = userList
+    const dispatch = useDispatch()
+     const userList = useSelector(state => state.userList)
+     const { loading, error, users } = userList
 
-    // let keyword = history.location.search
 
-    // useEffect(() => {
-    //     dispatch(listUsers(keyword))
-    //
-    // }, [dispatch, keyword])
 
-    return <div>
+
+    useEffect(() => {
+            if (!users || users.length === 0) {
+                dispatch(listUsers())
+            }
+
+
+    }, [dispatch, users])
+
+
+
+    return (<div>
             {/*{!keyword && <ProductCarousel/>}*/}
 
-            <h1>Latest Products</h1>
             {loading ? <Loader/>
                 : error ? <Message variant='danger'>{error}</Message>
                     :
                     <main className="home">
-                        <Search filtre={this.state.filtre} handleSeardev={this.handleSeardev}/>
+                        <Search />
                         <DevList>
 
-                            {USER.filter(user => {
-                                return user.username.toLowerCase().includes(this.state.filtre.toLowerCase());
-                            }).map((pro) => {
+                            {users.map((pro) => {
                                     return <Dev key={pro.id} profile={pro}/>
                                 }
                             )
@@ -47,7 +45,8 @@ export function Main({history}) {
                     </main>
             }
         </div>
-
+    )
 
 }
+
 
