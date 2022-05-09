@@ -28,6 +28,9 @@ public class User {
     @Column(columnDefinition = "varchar(100) default 'Paris'")
     private String location;
 
+    @Column(columnDefinition = "varchar(255)")
+    private String title;
+
     @Column(columnDefinition = "text")
     private String bio;
 
