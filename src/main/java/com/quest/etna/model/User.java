@@ -56,7 +56,7 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password, String email) {
+    public User(String username, String email, String password) {
         this.username = username.substring(0, 1).toUpperCase()+ username.substring(1).toLowerCase();
         this.password = password;
         this.creation_date = LocalDateTime.now();

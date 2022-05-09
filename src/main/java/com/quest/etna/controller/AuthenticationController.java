@@ -5,7 +5,10 @@ import com.quest.etna.config.AuthService;
 import com.quest.etna.config.JwtTokenUtil;
 import com.quest.etna.config.JwtUserDetailsService;
 import com.quest.etna.config.PasswordEncoderS;
+import com.quest.etna.model.Erreur;
+import com.quest.etna.model.JwtUserDetails;
 import com.quest.etna.model.User;
+import com.quest.etna.model.UserDetails;
 import com.quest.etna.repositories.UserRepository;
 
 
@@ -13,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 
 @RestController
@@ -36,29 +41,33 @@ public class AuthenticationController {
     @Autowired
     private PasswordEncoderS passwordEncoderS;
 
-    @PostMapping(value = "/register")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> register(@RequestBody User user) throws Exception {
+    @PostMapping("/register")
+//    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity register(@RequestBody User user) throws Exception {
 
-        HashMap<String, String> response = new HashMap<String, String>();
+
         String username = user.getUsername();
         String email = user.getEmail();
 
         //400
         if (username == null || user.getPassword() == null) {
-            response.put("status", "la requête n'est pas valide");
-            return new ResponseEntity<HashMap<String, String>>(response, HttpStatus.BAD_REQUEST);
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Erreur("La requête n'est pas valide"));
         }
 
         //409
         else if (userRepository.findByUsername(username).isPresent()) {
-            response.put("status", "Le nom d'utilisateur est déjà utilisé, Veillez utiliser un nouveau");
-            return new ResponseEntity<HashMap<String, String>>(response, HttpStatus.CONFLICT);
+
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new Erreur("Le nom d'utilisateur est déjà utilisé, Veillez utiliser un nouveau"));
         }
         //201
         else {
 
-            User user1 = new User(username, passwordEncoderS.passwordEncoder().encode(user.getPassword()), email);
+            User user1 = new User(username, email, passwordEncoderS.passwordEncoder().encode(user.getPassword()));
 
             userRepository.save(user1);
 
@@ -66,10 +75,10 @@ public class AuthenticationController {
                     user.getPassword());
 
             String token = authService.getValidToken();
-            response.put("username", username);
-            response.put("role", user1.getRole().toString());
-            response.put("token", token);
-            return new ResponseEntity<User>(user1, HttpStatus.CREATED);
+            UserDetails userDetails = new UserDetails(user1, token);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(userDetails);
         }
     }
 
@@ -82,22 +91,38 @@ public class AuthenticationController {
                     user.getPassword());
 
             String token = authService.getValidToken();
+            User user2 = userRepository.findByName(user.getUsername());
 
-
-            ObjectMapper mapper = new ObjectMapper();
-            HashMap<String, String> response = new HashMap<String, String>();
-            response.put("token", token);
-
-            String jsonString = mapper.writeValueAsString(response);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(jsonString);
+                    .body(new UserDetails(user2, token));
         } catch (Exception ex) {
             return ResponseEntity
-
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(ex.getMessage());
+                    .body(new Erreur(ex.getMessage()));
         }
     }
 
+
+    @GetMapping("/getme")
+    ResponseEntity<?> getMe() {
+        try {
+            String token = authService.getValidToken();
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new UserDetails(getUser(this.userRepository), token));
+        } catch (Exception ex) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new Erreur(ex.getMessage()));
+        }
+    }
+
+    static User getUser(UserRepository userRepository) {
+        JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        Optional<User> user = userRepository.findByUsername(userName);
+        return user.get();
+    }
 }

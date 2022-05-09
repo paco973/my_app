@@ -42,10 +42,20 @@ public class Project {
     private Set<Review> reviews;
 
     @CreationTimestamp
-    LocalDateTime creation_date;
+    private LocalDateTime creation_date;
 
     @UpdateTimestamp
-    LocalDateTime updated_date;
+    private LocalDateTime updated_date;
+
+	public Project(String title, String description, String demo_link, String source_link, String image){
+		this.title = title;
+		this.description = description;
+		this.image = image;
+		this.source_link = source_link;
+		this.demo_link = demo_link;
+		this.updated_date = LocalDateTime.now();
+		this.creation_date = LocalDateTime.now();;
+	}
 
 	public int getId() {
 		return id;
@@ -151,23 +161,7 @@ public class Project {
 		this.updated_date = updated_date;
 	}
 
-   /* public LocalDateTime getcreation_date() {
-        return creation_date;
-    }
 
-    public void setcreation_date(LocalDateTime creation_date) {
-        this.creation_date = creation_date;
-    }
 
-    public LocalDateTime getupdated_date() {
-        return updated_date;
-    }
 
-    public void setupdated_date(LocalDateTime updated_date) {
-        this.updated_date = updated_date;
-    }
-
-    public void update_date() {
-        this.updated_date = LocalDateTime.now();;
-    }*/
 }

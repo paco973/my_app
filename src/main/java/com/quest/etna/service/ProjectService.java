@@ -2,6 +2,7 @@ package com.quest.etna.service;
 
 import com.quest.etna.model.Project;
 import com.quest.etna.model.Tag;
+import com.quest.etna.model.User;
 import com.quest.etna.repositories.ProjectRopository;
 import com.quest.etna.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class ProjectService {
         this.projectRopository = projectRopository;
     }
 
-    public ResponseEntity<?> createProject(Project project, List<Tag> tagList) {
+    public ResponseEntity<?> createProject(Project project, User user) {
+        project.setUser(user);
         projectRopository.save(project);
         return ResponseEntity
                 .status(HttpStatus.OK)
