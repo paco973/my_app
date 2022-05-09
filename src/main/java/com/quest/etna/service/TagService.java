@@ -1,5 +1,7 @@
 package com.quest.etna.service;
 
+import com.quest.etna.model.Erreur;
+import com.quest.etna.model.Project;
 import com.quest.etna.model.Tag;
 import com.quest.etna.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +61,22 @@ public class TagService {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new Error("Le tag na pas été trouver"));
+                .body(new Erreur("Le tag n'a pas été trouver"));
 
+    }
+
+    public ResponseEntity<?> getByID(int id) {
+        Optional<Tag> tag = tagRepository.findById(id);
+        if (tag.isPresent()) {
+            Tag tagFound = tag.get();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(tagFound);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Erreur("Le tag n'a pas été trouver"));
     }
 
 

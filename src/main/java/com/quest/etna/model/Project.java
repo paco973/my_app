@@ -56,6 +56,8 @@ public class Project {
 		this.updated_date = LocalDateTime.now();
 		this.creation_date = LocalDateTime.now();;
 	}
+	public Project(){
+	}
 
 	public int getId() {
 		return id;

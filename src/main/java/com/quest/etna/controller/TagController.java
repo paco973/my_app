@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/tags")
 public class TagController {
 
     @Autowired
@@ -33,14 +34,14 @@ public class TagController {
     public ResponseEntity<?> addtag(@RequestBody Tag tag) {
         try {
             if (ProjectController.userDetailsCon(userRepository)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new Error("Utilisateur non habilité"));
+                    .body(new Erreur("Utilisateur non autorisé"));
             return this.tagService.createTag(tag);
         }
         catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 
@@ -49,14 +50,26 @@ public class TagController {
     ResponseEntity<?> removeTagById(@PathVariable int id){
         try {
             if (ProjectController.userDetailsCon(userRepository)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new Error("Utilisateur non habilité"));
+                    .body(new Erreur("Utilisateur non autorisé"));
             return tagService.delete(id);
         }
         catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
+        }
+    }
+
+    @GetMapping("/tag/{id}")
+    ResponseEntity<?> getSkillByID(@PathVariable int id) {
+        try {
+            return tagService.delete(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 }

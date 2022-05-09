@@ -1,8 +1,6 @@
 package com.quest.etna.service;
 
-import com.quest.etna.model.Project;
-import com.quest.etna.model.Tag;
-import com.quest.etna.model.User;
+import com.quest.etna.model.*;
 import com.quest.etna.repositories.ProjectRopository;
 import com.quest.etna.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,9 @@ public class ProjectService {
                 .status(HttpStatus.OK)
                 .body(project);
     }
-
+    public List<Project> getAll(){
+        return (List<Project>) projectRopository.findAll();
+    }
 
     public ResponseEntity<?> update(int id, Project entity) {
         Optional<Project> project = projectRopository.findById(id);
@@ -63,7 +63,25 @@ public class ProjectService {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new Error("Le tag na pas été trouver"));
+                .body(new Erreur("Le project n'a pas été trouver"));
 
     }
+
+    public ResponseEntity<?> getByID(int id) {
+        Optional<Project> project = projectRopository.findById(id);
+        if (project.isPresent()) {
+            Project projectFound = project.get();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(projectFound);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Erreur("Le project n'a pas été trouver"));
+    }
+
+
+
+
 }

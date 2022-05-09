@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -9077248927410675523L;
-    public static final long JWT_TOKEN_VALIDITY = 5 * 360;
+    public static final long JWT_TOKEN_VALIDITY = 50 * 360;
     private final String secret = "etna_quest"; // retrieve username from jwt token
 
     public String getUsernameFromToken(String token) {

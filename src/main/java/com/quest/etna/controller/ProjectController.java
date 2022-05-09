@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/projects")
 public class ProjectController {
 
     @Autowired
@@ -38,7 +39,7 @@ public class ProjectController {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 
@@ -62,7 +63,7 @@ public class ProjectController {
 
 
     @DeleteMapping("/project/{id}")
-    ResponseEntity<?> removeTagById(@PathVariable int id){
+    ResponseEntity<?> removeProjectById(@PathVariable int id){
         try {
             JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
@@ -70,17 +71,33 @@ public class ProjectController {
             Optional<User> user = userRepository.findByUsername(userName);
             if (user.get().getRole() == UserRole.ROLE_USER )
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new Error("Utilisateur non habilité"));
+                        .body(new Erreur("Utilisateur non autorisé"));
             return projectService.delete(id);
         }
         catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Project> getList(@RequestParam(defaultValue="0") Integer page , @RequestParam(defaultValue="5") Integer limit){
+        return projectService.getAll();
+    }
 
+    @GetMapping("/project/{id}")
+    ResponseEntity<?> getSkillByID(@PathVariable int id) {
+        try {
+            return projectService.delete(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Erreur("Mauvaise requête"));
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.quest.etna.model;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -45,13 +46,13 @@ public class User {
     LocalDateTime updated_date;
 
     @OneToMany(mappedBy="user")
-    private Set<Skill> skills;
+    private Set<Skill> skills =new HashSet<>();
 
     @OneToMany(mappedBy="user")
-    private Set<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
 
     @OneToMany(mappedBy="user")
-    private Set<Project> projects;
+    private Set<Project> projects = new HashSet<>();
 
 
     public User() {}
@@ -91,6 +92,9 @@ public class User {
         return role;
     }
 
+public Set getSkill(){
+        return this.skills;
+}
 
     public void setRole(UserRole role) {
         this.role = role;

@@ -1,9 +1,6 @@
 package com.quest.etna.controller;
 
-import com.quest.etna.model.JwtUserDetails;
-import com.quest.etna.model.Skill;
-import com.quest.etna.model.User;
-import com.quest.etna.model.UserRole;
+import com.quest.etna.model.*;
 import com.quest.etna.repositories.UserRepository;
 import com.quest.etna.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/skills")
 public class SkillController {
 
     @Autowired
@@ -29,46 +27,50 @@ public class SkillController {
         this.skillService = skillService;
     }
 
-    @PostMapping(value="/skill")
+    @PostMapping(value = "/skill")
     public ResponseEntity<?> addskill(@RequestBody Skill skill) {
         try {
             JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
             String userName = userDetails.getUsername();
             Optional<User> user = userRepository.findByUsername(userName);
-//            if (user.get().getRole() == UserRole.ROLE_USER )
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                        .body(new Erreur("Utilisateur non habilité"));
-            skill.setUser(user.get());
 
-            return this.skillService.createBook(skill);
-        }
-        catch (Exception ex) {
+
+            User user1 = user.get();
+            skill.setUser(user1);
+
+            return this.skillService.createSkill(skill);
+        } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 
 
     @DeleteMapping("/skill/{id}")
-    ResponseEntity<?> removeBooksById(@PathVariable int id){
+    ResponseEntity<?> removeSkillById(@PathVariable int id) {
         try {
-            JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication().getPrincipal();
-            String userName = userDetails.getUsername();
-            Optional<User> user = userRepository.findByUsername(userName);
-//            if (user.get().getRole() == UserRole.ROLE_USER )
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-//                        .body(new Error("Utilisateur non habilité"));
             return skillService.delete(id);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Error("Mauvaise requête"));
+                    .body(new Erreur("Mauvaise requête"));
+        }
+    }
+
+
+    @GetMapping("/skill/{id}")
+    ResponseEntity<?> getSkillByID(@PathVariable int id) {
+        try {
+            return skillService.delete(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Erreur("Mauvaise requête"));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.quest.etna.service;
 
+import com.quest.etna.model.Erreur;
 import com.quest.etna.model.Skill;
 import com.quest.etna.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ public class SkillService {
     SkillRepository skillRepository;
 
 
-    public SkillService(SkillRepository skillRepository){
+    public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
-    public ResponseEntity<?> createBook(Skill skill) {
+    public ResponseEntity<?> createSkill(Skill skill) {
         skillRepository.save(skill);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -34,10 +35,7 @@ public class SkillService {
         if (skill.isPresent()) {
             Skill skillFound = skill.get();
             skillFound.setName(entity.getName());
-
             skillFound.setDescription(entity.getDescription());
-
-            skillFound.setUser(entity.getUser());
             skillFound.setupdated_date(entity.getupdated_date());
             skillFound.setDescription(entity.getDescription());
             skillRepository.save(skillFound);
@@ -49,13 +47,32 @@ public class SkillService {
 
     public ResponseEntity<?> delete(int id) {
         Optional<Skill> skill = skillRepository.findById(id);
-        Skill skillFound = skill.get();
-        skillRepository.delete(skillFound);
+        if (skill.isPresent()) {
+            Skill skillFound = skill.get();
+            skillRepository.delete(skillFound);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(skill);
+        }
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(skill);
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Erreur("La compétence n'a pas été trouver"));
     }
 
+    public ResponseEntity<?> getByID(int id) {
+        Optional<Skill> skill = skillRepository.findById(id);
+        if (skill.isPresent()) {
+            Skill skillFound = skill.get();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(skillFound);
+        }
+
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Erreur("La compétence n'a pas été trouver"));
+    }
 
 
 }
