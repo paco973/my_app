@@ -27,13 +27,20 @@ public class UserService  {
 
 
 	public List<User> getList() {
-
 		return userRepository.findAll();
 	}
 
 
 	public User getOneByName(String name) {
+		System.out.println(name);
 		Optional<User> user = userRepository.findByUsername(name);
+		if (user.isEmpty()) return null;
+		return user.get();
+	}
+
+	public User getOneById(int id) {
+
+		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) return null;
 		return user.get();
 	}

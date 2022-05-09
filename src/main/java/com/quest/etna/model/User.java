@@ -1,4 +1,5 @@
 package com.quest.etna.model;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +14,13 @@ import org.hibernate.type.StringNVarcharType;
 public class User {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     String username;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     String password;
 
     @Column(nullable = false, unique = true)
@@ -27,6 +28,9 @@ public class User {
 
     @Column(columnDefinition = "varchar(100) default 'Paris'")
     private String location;
+
+    @Column(columnDefinition = "varchar(255)")
+    private String title;
 
     @Column(columnDefinition = "text")
     private String bio;
@@ -42,30 +46,31 @@ public class User {
     LocalDateTime creation_date;
 
     @UpdateTimestamp
-   // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     LocalDateTime updated_date;
 
-    @OneToMany(mappedBy="user")
-    private Set<Skill> skills =new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Skill> skills = new HashSet<>();
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private Set<Review> reviews = new HashSet<>();
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private Set<Project> projects = new HashSet<>();
 
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String email, String password) {
-        this.username = username.substring(0, 1).toUpperCase()+ username.substring(1).toLowerCase();
+        this.username = username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase();
         this.password = password;
         this.creation_date = LocalDateTime.now();
         this.email = email;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -73,7 +78,7 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -81,20 +86,58 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public Set getSkills() {
+        return this.skills;
+    }
+
+    public Set getProjects() {
+        return this.projects;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getBio() {
+        return this.bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     public UserRole getRole() {
         return role;
     }
 
-public Set getSkill(){
-        return this.skills;
-}
 
     public void setRole(UserRole role) {
         this.role = role;
@@ -117,16 +160,16 @@ public Set getSkill(){
     }
 
     public void update_date() {
-        this.updated_date = LocalDateTime.now();;
+        this.updated_date = LocalDateTime.now();
+
     }
 
 
     public void setEmail(String email) {
-        this.email = email;;
+        this.email = email;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return this.email;
     }
 }
