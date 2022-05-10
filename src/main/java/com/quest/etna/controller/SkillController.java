@@ -27,14 +27,13 @@ public class SkillController {
         this.skillService = skillService;
     }
 
-    @PostMapping(value = "/skill")
+    @PostMapping(value = "/")
     public ResponseEntity<?> addskill(@RequestBody Skill skill) {
         try {
             JwtUserDetails userDetails = (JwtUserDetails) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
             String userName = userDetails.getUsername();
             Optional<User> user = userRepository.findByUsername(userName);
-
 
             User user1 = user.get();
             skill.setUser(user1);
@@ -52,6 +51,7 @@ public class SkillController {
     @DeleteMapping("/skill/{id}")
     ResponseEntity<?> removeSkillById(@PathVariable int id) {
         try {
+            System.out.println("ici");
             return skillService.delete(id);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -65,7 +65,9 @@ public class SkillController {
     @GetMapping("/skill/{id}")
     ResponseEntity<?> getSkillByID(@PathVariable int id) {
         try {
-            return skillService.delete(id);
+
+
+            return skillService.getByID(id);
         } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity

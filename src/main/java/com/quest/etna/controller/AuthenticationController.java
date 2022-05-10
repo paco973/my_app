@@ -109,9 +109,10 @@ public class AuthenticationController {
         try {
             String token = authService.getValidToken();
             return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .status(HttpStatus.OK)
                     .body(new UserDetails(getUser(this.userRepository), token));
         } catch (Exception ex) {
+            System.out.println(ex);
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(new Erreur(ex.getMessage()));

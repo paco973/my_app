@@ -56,9 +56,10 @@ public class UserService  {
 
 
 		User userFound = user.get();
-		userFound.setUsername(entity.getUsername());
-		userFound.setPassword(entity.getPassword());
-		userFound.setRole(entity.getRole());
+
+		userFound.setLocation(entity.getLocation());
+		userFound.setPhoto(entity.getPhoto());
+		userFound.setBio(entity.getBio());
 		userFound.update_date();;
 		userRepository.save(userFound);
 		return userFound;
