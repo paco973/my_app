@@ -9,6 +9,7 @@ import {getUserDetail} from "../../action/userActions";
 import {Message} from "../../component/Message";
 import Loader from "../../component/Loader";
 import {useEffect} from "react";
+import {Project} from "./component/Project";
 
 
 
@@ -21,7 +22,7 @@ export function Developer() {
     const {error, loading, user} = userDetails
 
     useEffect(() => {
-            if (user.id.toString() !== id)
+            if (user.id != id)
             {
 
                 dispatch(getUserDetail(id))
@@ -32,7 +33,6 @@ export function Developer() {
 
 
 
-    console.log(user)
     return <main className="profile my-md">
         { error && <Message variant='danger'>{error}</Message>}
         {loading ? <Loader/> : user.username ?<div className="container">  <div className="layout">
@@ -41,11 +41,11 @@ export function Developer() {
                 <About>{user ? user.bio : ''}</About>
                 <Skill skills={user.skills}/>
                 <ProjectList>
-                    {/*{user.projects.map(project => <Project key={project.id} project={project}/>)}*/}
+                    {user.projects.map(project => <Project key={project.id} project={project} name={user.username}/>)}
                 </ProjectList>
             </div>
         </div>
-        </div>:<Message variant='danger'>error  </Message>
+        </div>:''
            }
 
     </main>

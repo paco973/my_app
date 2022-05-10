@@ -4,24 +4,26 @@ import {useDispatch, useSelector} from "react-redux";
 import Loader from "../../../component/Loader";
 import {Message} from "../../../component/Message";
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-export function Login({  history }){
+export function Login(){
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+        const history = useNavigate()
+
     const dispatch = useDispatch()
 
-   const redirect = '/account' //.search ? location.search.split('=')[1] : '/'
 
     const userLogin = useSelector(state => state.userLogin)
     const { error, loading, userInfo } = userLogin
 
     useEffect(() => {
         if (userInfo) {
-            history.push(redirect)
+            history('/account')
         }
-    }, [history, userInfo, redirect])
+    }, [history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()

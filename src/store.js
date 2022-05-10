@@ -21,7 +21,16 @@ import {
     userListReducer,
     userDeleteReducer,
     userUpdateReducer,
+    userCurentReducer
 } from './reducer/userReducers'
+
+import {
+    skillCreateReducer,
+    skillDeleteReducer,
+    skillDetailsReducer,
+    skillListReducer, skillReviewCreateReducer, skillTopRatedReducer,
+    skillUpdateReducer
+} from "./reducer/skillReducers";
 
 // import {
 //     orderCreateReducer,
@@ -41,10 +50,21 @@ const reducer = combineReducers({
     projectReviewCreate: projectReviewCreateReducer,
     projectTopRated: projectTopRatedReducer,
 
-    // cart: cartReducer,
+
+
+    skillList: skillListReducer,
+    skillDetails: skillDetailsReducer,
+    skillDelete: skillDeleteReducer,
+    skillCreate: skillCreateReducer,
+    skillUpdate: skillUpdateReducer,
+    skillReviewCreate: skillReviewCreateReducer,
+    skillTopRated: skillTopRatedReducer,
+
+
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
+    userCurent: userCurentReducer,
     userUpdateProfile: userUpdateProfileReducer,
     userList: userListReducer,
     userDelete: userDeleteReducer,

@@ -14,6 +14,7 @@ import {Account} from "./screen/account/Account";
 
 import {SkillForm} from "./screen/account/SkillForm";
 import {Singup} from "./screen/register/Singup";
+import {ProfileForm} from "./screen/account/ProfileForm";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
                     <Route path="/account" element={<Account/>}/>
                     <Route path="/projects" element={<SkillForm/>}/>
                     <Route path="/register" element={<Singup/>}/>
+                    <Route path="/account/editProfile" element={<ProfileForm/>}/>
+                    <Route path="/account/addSkill" element={<SkillForm/>}/>
                 </Routes>
             </BrowserRouter>
 }

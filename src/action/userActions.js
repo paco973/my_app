@@ -15,6 +15,11 @@ import {
     USER_DETAILS_FAIL,
     USER_DETAILS_RESET,
 
+    USER_CURRENT_REQUEST,
+    USER_CURRENT_SUCCESS,
+    USER_CURRENT_FAIL,
+    //USER_CURRENT_RESET,
+
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
@@ -115,6 +120,8 @@ export const register = (name, email, password) => async (dispatch) => {
             payload: data
         })
 
+
+
         localStorage.setItem('userInfo', JSON.stringify(data))
 
     } catch (error) {
@@ -131,20 +138,24 @@ export const register = (name, email, password) => async (dispatch) => {
 }
 
 
-export const getUserDetails = () => async (dispatch, getState) => {
+export const getUserCurrent = () => async (dispatch, getState) => {
+
     try {
+
         dispatch({
-            type: USER_DETAILS_REQUEST
+            type: USER_CURRENT_REQUEST
         })
 
         const {
             userLogin: { userInfo },
         } = getState()
 
+
+
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.teken}`
+                'Authorization': `Bearer ${userInfo.teken}`
             }
         }
 
@@ -153,17 +164,18 @@ export const getUserDetails = () => async (dispatch, getState) => {
             config
         )
 
+
         dispatch({
-            type: USER_DETAILS_SUCCESS,
-            payload: data
+            type: USER_CURRENT_SUCCESS,
+            payload: data.user
         })
 
 
     } catch (error) {
         dispatch({
-            type: USER_DETAILS_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            type: USER_CURRENT_FAIL,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }
@@ -215,33 +227,38 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
 
+
+
         const { data } = await axios.put(
-            `/api/users/profile/update/`,
+            `http://localhost:8090/users/update`,
             user,
             config
         )
 
         dispatch({
             type: USER_UPDATE_PROFILE_SUCCESS,
-            payload: data
+            payload: {user:data, teken:userInfo.teken}
         })
 
         dispatch({
             type: USER_LOGIN_SUCCESS,
-            payload: data
+            payload: {
+                user:data,
+                teken:userInfo.teken
+            }
         })
 
-        localStorage.setItem('userInfo', JSON.stringify(data))
+        localStorage.setItem('userInfo', JSON.stringify({user:data, teken:userInfo.teken}))
 
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }

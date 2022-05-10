@@ -16,7 +16,7 @@ export  function Dev({profile}) {
                     {profile.bio}
                 </p>
                 <div className="dev__skills">
-                    { profile.skills.map((skill, index) => (
+                    { profile.skills.map(skill => (
                         <span key={skill.id} className="tag tag--pill tag--main">
                     <small>{
                         skill.name
@@ -26,6 +26,4 @@ export  function Dev({profile}) {
             </Link>
         </div>
     </div>)
-
-
 }

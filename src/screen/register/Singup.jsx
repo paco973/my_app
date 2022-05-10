@@ -3,9 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {Message} from "../../component/Message";
 import Loader from "../../component/Loader";
 import {register} from '../../action/userActions'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-export  function Singup({location, history}) {
+export  function Singup() {
+    const dispatch = useDispatch()
+    const history = useNavigate()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -13,18 +15,18 @@ export  function Singup({location, history}) {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState('')
 
-    const dispatch = useDispatch()
 
-    const redirect = location  || '/'//.search ? location.search.split('=')[1] : '/'
 
     const userRegister = useSelector(state => state.userRegister)
     const {error, loading, userInfo} = userRegister
 
     useEffect(() => {
+
         if (userInfo) {
-            history.push(redirect)
+            history('/account')
         }
-    }, [history, userInfo, redirect])
+    }, [history, userInfo,])
+
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -34,6 +36,7 @@ export  function Singup({location, history}) {
         } else {
             dispatch(register(name, email, password))
         }
+
 
     }
 

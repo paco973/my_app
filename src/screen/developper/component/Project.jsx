@@ -1,6 +1,6 @@
 const bold = {'fontWeight': 'bold'}
 
-export function Project({project}){
+export function Project({project, name}){
     return <div className="column">
                                     <div className="card project">
                                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -9,8 +9,7 @@ export function Project({project}){
                                                  alt="project thumbnail"/>
                                             <div className="card__body">
                                                 <h3 className="project__title">{project.title}</h3>
-                                                <p><a className="project__author" href="">By Shahriar P.
-                                                    Shuvo</a></p>
+                                                <p><a className="project__author" href="">By Shahriar {name}</a></p>
                                                 <p className="project--rating">
                                                     {/* eslint-disable-next-line react/style-prop-object */}
                                                     <span style={bold}>{project.vote_ration}%</span> Postitive
