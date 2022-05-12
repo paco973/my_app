@@ -112,7 +112,7 @@ public class AuthenticationController {
                     .status(HttpStatus.OK)
                     .body(new UserDetails(getUser(this.userRepository), token));
         } catch (Exception ex) {
-            System.out.println(ex);
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(new Erreur(ex.getMessage()));

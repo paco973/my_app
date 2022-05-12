@@ -47,20 +47,17 @@ public class SkillController {
         }
     }
 
-
     @DeleteMapping("/skill/{id}")
     ResponseEntity<?> removeSkillById(@PathVariable int id) {
         try {
-            System.out.println("ici");
             return skillService.delete(id);
         } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new Erreur("Mauvaise requête"));
+                    .body(new Erreur(ex.getMessage()));
         }
     }
-
 
     @GetMapping("/skill/{id}")
     ResponseEntity<?> getSkillByID(@PathVariable int id) {
@@ -74,5 +71,10 @@ public class SkillController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Erreur("Mauvaise requête"));
         }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSkill(@RequestBody Skill skill ) {
+        return skillService.update(skill);
     }
 }

@@ -56,7 +56,7 @@ public class UserService  {
 
 
 		User userFound = user.get();
-
+		userFound.setDescription(entity.getDescription());
 		userFound.setLocation(entity.getLocation());
 		userFound.setPhoto(entity.getPhoto());
 		userFound.setBio(entity.getBio());

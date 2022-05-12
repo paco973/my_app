@@ -27,16 +27,19 @@ public class User {
     private String email;
 
     @Column(columnDefinition = "varchar(100) default 'Paris'")
-    private String location;
+    private String location ="";
 
     @Column(columnDefinition = "varchar(255)")
     private String title;
 
     @Column(columnDefinition = "text")
-    private String bio;
+    private String bio ="";
 
     @Column(columnDefinition = "text")
-    private String photo;
+    private String photo = "https://www.pikpng.com/pngl/m/500-5008137_png-file-svg-user-profile-vector-clipart.png";
+
+    @Column(columnDefinition = "varchar(255)")
+    private String description = "";
 
 
     @Enumerated(EnumType.STRING)
@@ -84,6 +87,14 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public String getPassword() {
         return this.password;

@@ -30,8 +30,8 @@ public class SkillService {
     }
 
 
-    public ResponseEntity<?> update(int id, Skill entity) {
-        Optional<Skill> skill = skillRepository.findById(id);
+    public ResponseEntity<?> update(Skill entity) {
+        Optional<Skill> skill = skillRepository.findById(entity.getId());
         if (skill.isPresent()) {
             Skill skillFound = skill.get();
             skillFound.setName(entity.getName());
@@ -42,7 +42,7 @@ public class SkillService {
         }
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("<<String>,<String>");
+                .body(skill);
     }
 
     public ResponseEntity<?> delete(int id) {

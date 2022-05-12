@@ -7,15 +7,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     @Column(columnDefinition = "text")
     private String body;
-    @Column()
-    private String value;
+
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
@@ -31,6 +29,19 @@ public class Review {
     @UpdateTimestamp
     LocalDateTime updated_date;
 
+
+	public Review(String body){
+		this.body = body;
+		this.creation_date = LocalDateTime.now();
+		this.updated_date = LocalDateTime.now();
+	}
+
+	public Review() {
+
+	}
+	public ProjectUserDetails getUserDetails() {
+		return new ProjectUserDetails(this.user.getId(), this.user.getUsername(), this.user.getPhoto() );
+	}
 	public int getId() {
 		return id;
 	}
@@ -47,25 +58,18 @@ public class Review {
 		this.body = body;
 	}
 
-	public String getValue() {
-		return value;
-	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public User getUser() {
-		return user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
 
-	public Project getProject() {
-		return project;
-	}
+//	public Project getProject() {
+//		return project;
+//	}
 
 	public void setProject(Project project) {
 		this.project = project;

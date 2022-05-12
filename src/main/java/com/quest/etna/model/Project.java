@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Project {
     @Column(columnDefinition = "float")
     private Float vote_ratio;
     @Column(columnDefinition = "integer")
-    private int vote_total;
+    private int vote_total = 0;
     @Column(columnDefinition = "text")
     private String image;
 
@@ -39,7 +40,7 @@ public class Project {
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy="project")
-    private Set<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
 
     @CreationTimestamp
     private LocalDateTime creation_date;
@@ -47,14 +48,14 @@ public class Project {
     @UpdateTimestamp
     private LocalDateTime updated_date;
 
-	public Project(String title, String description, String demo_link, String source_link, String image){
+	public Project(String title, String description, String demo_link, String source_link, String image ){
 		this.title = title;
 		this.description = description;
 		this.image = image;
 		this.source_link = source_link;
 		this.demo_link = demo_link;
 		this.updated_date = LocalDateTime.now();
-		this.creation_date = LocalDateTime.now();;
+		this.creation_date = LocalDateTime.now();
 	}
 	public Project(){
 	}
@@ -143,8 +144,8 @@ public class Project {
 		return reviews;
 	}
 
-	public void setReviews(Set<Review> reviews) {
-		this.reviews = reviews;
+	public void setReviews(Review reviews) {
+		this.reviews.add(reviews);
 	}
 
 	public LocalDateTime getCreation_date() {
@@ -161,6 +162,10 @@ public class Project {
 
 	public void setUpdated_date(LocalDateTime updated_date) {
 		this.updated_date = updated_date;
+	}
+
+	public ProjectUserDetails getUserDetails() {
+		return new ProjectUserDetails(this.user.getId(), this.user.getUsername(), this.user.getPhoto() );
 	}
 
 
