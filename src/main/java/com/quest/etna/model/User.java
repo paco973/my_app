@@ -72,6 +72,14 @@ public class User {
         this.email = email;
     }
 
+    public User(String description, String bio, String photo, String location) {
+        this.photo = photo;
+        this.description = description;
+        this.location =location;
+        this.bio = bio;
+        this.updated_date =  LocalDateTime.now();
+    }
+
     public int getId() {
         return this.id;
     }

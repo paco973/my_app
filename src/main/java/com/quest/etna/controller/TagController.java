@@ -30,7 +30,7 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @PostMapping(value="/tag")
+    @PostMapping(value="/")
     public ResponseEntity<?> addtag(@RequestBody Tag tag) {
         try {
             if (ProjectController.userDetailsCon(userRepository)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -62,14 +62,30 @@ public class TagController {
     }
 
     @GetMapping("/tag/{id}")
-    ResponseEntity<?> getSkillByID(@PathVariable int id) {
+    ResponseEntity<?> getTagByID(@PathVariable int id) {
         try {
-            return tagService.delete(id);
+            return tagService.getByID(id);
         } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Erreur("Mauvaise requête"));
         }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getList(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(tagService.getAll());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Erreur(e.getMessage()));
+
+        }
+
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSkill(@RequestBody Tag tag ) {
+        return tagService.update(tag);
     }
 }

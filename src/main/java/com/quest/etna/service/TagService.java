@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,8 +31,8 @@ public class TagService {
     }
 
 
-    public ResponseEntity<?> update(int id, Tag entity) {
-        Optional<Tag> tag = tagRepository.findById(id);
+    public ResponseEntity<?> update( Tag entity) {
+        Optional<Tag> tag = tagRepository.findById(entity.getId());
         if (tag.isPresent()) {
             Tag tagFound = tag.get();
             tagFound.setName(entity.getName());
@@ -79,6 +80,8 @@ public class TagService {
                 .body(new Erreur("Le tag n'a pas été trouver"));
     }
 
-
+    public List<Tag> getAll() {
+        return (List<Tag>) tagRepository.findAll();
+    }
 
 }
