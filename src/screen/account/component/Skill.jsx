@@ -26,7 +26,7 @@ export function Skill({skill}) {
         </td>
         <td className="settings__tableActions">
             <Link className="tag tag--pill tag--main settings__btn"
-              to={'/paco:'}><i
+              to={`/account/editSkill/${skill.id}`}><i
                 className="im im-edit"></i> Edit</Link>
             <button className="tag tag--pill tag--main settings__btn" onClick={() => deleteHandler(skill.id)}
             ><i

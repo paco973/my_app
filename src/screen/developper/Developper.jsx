@@ -24,7 +24,6 @@ export function Developer() {
     useEffect(() => {
             if (user.id != id)
             {
-
                 dispatch(getUserDetail(id))
             }
 

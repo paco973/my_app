@@ -5,7 +5,7 @@ export function Me({user}){
                                 <img className="avatar avatar--xl"
                                      src={user.photo} alt={user.username}/>
                                 <h2 className="dev__name">{user.username}</h2>
-                                <p className="dev__title">{user.title}</p>
+                                <p className="dev__title">{user.description}</p>
                                 <p className="dev__location">Based in {user.location}</p>
                                 <ul className="dev__social">
                                     <li>

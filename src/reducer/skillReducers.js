@@ -56,13 +56,13 @@ export const skillListReducer = (state = { projects: [] }, action) => {
 
 
 
-export const skillDetailsReducer = (state = { product: { reviews: [] } }, action) => {
+export const skillDetailsReducer = (state = {  }, action) => {
     switch (action.type) {
         case SKILL_DETAILS_REQUEST:
             return { loading: true, ...state }
 
         case SKILL_DETAILS_SUCCESS:
-            return { loading: false, project: action.payload }
+            return { loading: false, skill: action.payload }
 
         case SKILL_DETAILS_FAIL:
             return { loading: false, error: action.payload }
@@ -111,19 +111,19 @@ export const skillCreateReducer = (state = {}, action) => {
 }
 
 
-export const skillUpdateReducer = (state = { project: {} }, action) => {
+export const skillUpdateReducer = (state = { skill: {} }, action) => {
     switch (action.type) {
         case SKILL_UPDATE_REQUEST:
             return { loading: true }
 
         case SKILL_UPDATE_SUCCESS:
-            return { loading: false, success: true, project: action.payload }
+            return { loading: false, success: true, skill: action.payload }
 
         case SKILL_UPDATE_FAIL:
             return { loading: false, error: action.payload }
 
         case SKILL_UPDATE_RESET:
-            return { project: {} }
+            return { skill: {} }
 
         default:
             return state

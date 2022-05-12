@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Message} from "../../component/Message";
 import Loader from "../../component/Loader";
-import {register} from '../../action/userActions'
+import {getUserCurrent, register} from '../../action/userActions'
 import {Link, useNavigate} from "react-router-dom";
 
 export  function Singup() {
@@ -16,16 +16,18 @@ export  function Singup() {
     const [message, setMessage] = useState('')
 
 
-
+    const userLogin = useSelector(state => state.userLogin)
+    const {userInfo} = userLogin
     const userRegister = useSelector(state => state.userRegister)
-    const {error, loading, userInfo} = userRegister
+    const {error, loading} = userRegister
 
     useEffect(() => {
 
         if (userInfo) {
+            dispatch(getUserCurrent())
             history('/account')
         }
-    }, [history, userInfo,])
+    }, [dispatch, history, userInfo])
 
 
     const submitHandler = (e) => {

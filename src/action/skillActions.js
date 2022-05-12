@@ -76,12 +76,23 @@ export const listTopProducts = () => async (dispatch) => {
 }
 
 
-export const listProductDetails = (id) => async (dispatch) => {
+export const getSkillDetails = (id) => async (dispatch, getState) => {
     try {
         dispatch({ type: SKILL_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/products/${id}`)
+        const {
+            userLogin: { userInfo },
+        } = getState()
 
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.teken}`
+            }
+        }
+
+
+        const { data } = await axios.get(`http://localhost:8090/skills/skill/${id}`, config)
         dispatch({
             type: SKILL_DETAILS_SUCCESS,
             payload: data
@@ -96,7 +107,6 @@ export const listProductDetails = (id) => async (dispatch) => {
         })
     }
 }
-
 
 export const deleteSkillUser = (id) => async (dispatch, getState) => {
     try {
@@ -134,9 +144,6 @@ export const deleteSkillUser = (id) => async (dispatch, getState) => {
         })
     }
 }
-
-
-
 
 export const createSkill = (name, description) => async (dispatch, getState) => {
     try {
@@ -181,7 +188,7 @@ export const createSkill = (name, description) => async (dispatch, getState) => 
 
 
 
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateSkill = (skill) => async (dispatch, getState) => {
     try {
         dispatch({
             type: SKILL_UPDATE_REQUEST
@@ -194,15 +201,16 @@ export const updateProduct = (product) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
-
+console.log(userInfo)
         const { data } = await axios.put(
-            `/api/products/update/${product._id}/`,
-            product,
+            `http://localhost:8090/skills/update`,
+            skill,
             config
         )
+
         dispatch({
             type: SKILL_UPDATE_SUCCESS,
             payload: data,

@@ -75,7 +75,7 @@ export function Account() {
                     <div className="settings">
                         <h3 className="settings__title">Projects</h3>
                         <Link className="tag tag--pill tag--sub settings__btn tag--lg"
-                          to={"/account/addSkill"}>
+                          to={"/account/addProject"}>
                             <i className="im im-plus"></i> Add Project</Link>
                     </div>
 

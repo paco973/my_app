@@ -6,6 +6,7 @@ import {Dev} from "./component/Deve";
 import {listUsers} from "../../action/userActions";
 import {useDispatch, useSelector} from "react-redux";
 import React, {  useEffect } from 'react'
+import {listProject} from "../../action/projectActions";
 
  export function Main() {
 
@@ -13,16 +14,14 @@ import React, {  useEffect } from 'react'
      const userList = useSelector(state => state.userList)
      const { loading, error, users } = userList
 
-
-
-
     useEffect(() => {
             if (!users || users.length === 0) {
                 dispatch(listUsers())
+                dispatch(listProject())
             }
 
 
-    }, [dispatch, users])
+    }, [loading, error,dispatch, users])
 
 
 

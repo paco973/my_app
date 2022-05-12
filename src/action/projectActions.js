@@ -25,18 +25,14 @@ import {
     PROJECT_CREATE_REVIEW_FAIL,
 
 
-    PROJECT_TOP_REQUEST,
-    PROJECT_TOP_SUCCESS,
-    PROJECT_TOP_FAIL,
-
 } from '../constant/projectConstant'
 
 
-export const listProducts = (keyword = '') => async (dispatch) => {
+export const listProject = () => async (dispatch) => {
     try {
         dispatch({ type: PROJECT_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/products${keyword}`)
+        const { data } = await axios.get(`http://localhost:8090/projects/all`)
 
         dispatch({
             type: PROJECT_LIST_SUCCESS,
@@ -46,41 +42,20 @@ export const listProducts = (keyword = '') => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: PROJECT_LIST_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        })
-    }
-}
-
-export const listTopProducts = () => async (dispatch) => {
-    try {
-        dispatch({ type: PROJECT_TOP_REQUEST })
-
-        const { data } = await axios.get(`/api/products/top/`)
-
-        dispatch({
-            type: PROJECT_TOP_SUCCESS,
-            payload: data
-        })
-
-    } catch (error) {
-        dispatch({
-            type: PROJECT_TOP_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }
 }
 
 
-export const listProductDetails = (id) => async (dispatch) => {
+
+export const projectDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PROJECT_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/products/${id}`)
-
+        const { data } = await axios.get(`http://localhost:8090/projects/project/${id}`)
         dispatch({
             type: PROJECT_DETAILS_SUCCESS,
             payload: data
@@ -89,15 +64,18 @@ export const listProductDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: PROJECT_DETAILS_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
+
     }
+
+
 }
 
 
-export const deleteProduct = (id) => async (dispatch, getState) => {
+export const deleteProject = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PROJECT_DELETE_REQUEST
@@ -110,12 +88,12 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
 
         const { data } = await axios.delete(
-            `/api/products/delete/${id}/`,
+            `http://localhost:8090/projects/project/${id}`,
             config
         )
 
@@ -127,8 +105,8 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: PROJECT_DELETE_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }
@@ -137,7 +115,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 
 
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProject = (name, description, demo_link, source_link, image) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PROJECT_CREATE_REQUEST
@@ -150,13 +128,13 @@ export const createProduct = () => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
 
         const { data } = await axios.post(
-            `/api/products/create/`,
-            {},
+            `http://localhost:8090/projects/`,
+            {demo_link:demo_link, source_link:source_link, image:image, title:name, description:description},
             config
         )
         dispatch({
@@ -168,8 +146,8 @@ export const createProduct = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: PROJECT_CREATE_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }
@@ -177,7 +155,7 @@ export const createProduct = () => async (dispatch, getState) => {
 
 
 
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProject = (project) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PROJECT_UPDATE_REQUEST
@@ -190,13 +168,13 @@ export const updateProduct = (product) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
 
         const { data } = await axios.put(
-            `/api/products/update/${product._id}/`,
-            product,
+            `http://localhost:8090/projects/update/${project.id}`,
+            {title:project.title, image:project.image, demo_link:project.demo_link, source_link:project.source_link, description:project.description},
             config
         )
         dispatch({
@@ -214,14 +192,14 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: PROJECT_UPDATE_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }
 }
 
-export const createProductReview = (productId, review) => async (dispatch, getState) => {
+export const createPojectReview = ( id, review) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PROJECT_CREATE_REVIEW_REQUEST
@@ -234,15 +212,17 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.teken}`
             }
         }
 
+
         const { data } = await axios.post(
-            `/api/products/${productId}/reviews/`,
-            review,
+            `http://localhost:8090/projects/addreview/${id}`,
+            {body:review},
             config
         )
+
         dispatch({
             type: PROJECT_CREATE_REVIEW_SUCCESS,
             payload: data,
@@ -253,8 +233,8 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
     } catch (error) {
         dispatch({
             type: PROJECT_CREATE_REVIEW_FAIL,
-            payload: error.response && error.response.data.detail
-                ? error.response.data.detail
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
                 : error.message,
         })
     }

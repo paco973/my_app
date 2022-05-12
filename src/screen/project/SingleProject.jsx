@@ -1,65 +1,79 @@
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {Message} from "../../component/Message";
+import Loader from "../../component/Loader";
+import {AddReview} from "./component/addReview";
+import {Review} from "./component/Review";
+import {projectDetails} from "../../action/projectActions";
 
 export function SingleProject() {
-    return <main class="singleProject my-md">
-        <div class="container">
-            <div class="layout">
-                <div class="column column--1of3">
-                    <h3 class="singleProject__subtitle">Tools & Stacks</h3>
-                    <div class="singleProject__toolStack">
+    const dispatch = useDispatch()
+    const {id} = useParams()
 
-                        <span class="tag tag--pill tag--sub tag--lg">
+
+
+    const userDetails = useSelector(state => state.projectDetails)
+    const {error,success, loading, project} = userDetails
+
+    const userLogin = useSelector(state => state.userLogin)
+    const {userInfo} = userLogin
+
+    useEffect(() => {
+        if (!project || id != project.id) {
+            dispatch(projectDetails(id))
+        }
+
+    }, [dispatch, id, project, success])
+
+
+    return <main className="singleProject my-md">
+        { error && <Message variant='danger'>{error}</Message>}
+        {loading && <Loader/>}
+        {project && success? <div className="container">
+            <div className="layout">
+                <div className="column column--1of3">
+                    <h3 className="singleProject__subtitle">{project.title}</h3>
+                    <div className="singleProject__toolStack">
+
+                        {project.tags.map(tag => {
+                            return <span key={tag.id} className="tag tag--pill tag--sub tag--lg">
                         <small>tag</small>
                     </span>
+                        })}
                     </div>
 
-                    <a class="singleProject__liveLink" href="http://www.pacodjo.fr" target="_blank"><i
-                        class="im im-external-link"></i>Source
+                    <a className="singleProject__liveLink" href={project.source_link} target="_blank" rel="noreferrer"><i
+                        className="im im-external-link"></i>Source
                         Code
                     </a>
 
-                    <a class="singleProject__liveLink" href="http://www.pacodjo.fr" target="_blank"><i
-                        class="im im-external-link"></i>Live Demo</a>
+                    <a className="singleProject__liveLink" href={project.demo_link} target="_blank" rel="noreferrer"><i
+                        className="im im-external-link"></i>Live Demo</a>
                 </div>
-                <div class="column column--2of3">
-                    <img class="singleProject__preview" src="joo.png" alt="portfolio thumbnail"/>
-                    <Link href="paco"
-                          class="singleProject__developer">project.owner.name</Link>
-                    <h2 class="singleProject__title">project.title</h2>
-                    <h3 class="singleProject__subtitle">About the Project</h3>
-                    <div class="singleProject__info">
-                        project.description
+                <div className="column column--2of3">
+                    <img className="singleProject__preview" src={project.userDetails.photo} alt="portfolio thumbnail"/>
+                    <Link to={`/developer/${project.userDetails.id}`}
+                          className="singleProject__developer"> {project.userDetails.username}</Link>
+                    <h2 className="singleProject__title">{project.title}</h2>
+                    <h3 className="singleProject__subtitle">About the Project</h3>
+                    <div className="singleProject__info">
+                        {project.description}
                     </div>
-                    <div class="comments">
-                        <h3 class="singleProject__subtitle">Feedback</h3>
-                        <h5 class="project--rating">
-                            project.vote_ratio% Positive Feedback (project.vote_total
-                            Vote(s)
+                    <div className="comments">
+                        <h3 className="singleProject__subtitle">Feedback</h3>
+                        <h5 className="project--rating">
+                            Positive Feedback {project.vote_total} Vote(s)
                         </h5>
-                        <form class="form" action="{% url 'project' project.id %}" method="POST">
-
-                            <div class="form__field">
-                                <label for="formInput#textarea">field.label}}</label>
-                                field
-                            </div>
-
-                            <input class="btn btn--sub btn--lg" type="submit" value="Add Review"/>
-                        </form>
-                        <div class="commentList">
-                            <div class="comment">
-                                <a href="">
-                                    <img class="avatar avatar--md" src="psdp.png" alt="user"/>
-                                </a>
-                                <div class="comment__details">
-                                    <a href="#"
-                                       class="comment__author">review.owner.name</a>
-                                    <p class="comment__info">review.body|linebreaksbr</p>
-                                </div>
-                            </div>
+                        {userInfo && userInfo.user.id !== project.userDetails.id && !project.reviews.find(review => review.id === userInfo.user.id)? <AddReview id={project.id}/> : ''}
+                        <div className="commentList">
+                            {project.reviews.map(review => {
+                                return <Review key={review.id} review={review}/>
+                            })}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-</main>
+        </div>: ''}
+    </main>
 }

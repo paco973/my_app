@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {login} from "../../../action/userActions";
+import {getUserCurrent, login} from "../../../action/userActions";
 import {useDispatch, useSelector} from "react-redux";
 import Loader from "../../../component/Loader";
 import {Message} from "../../../component/Message";
@@ -21,9 +21,10 @@ export function Login(){
 
     useEffect(() => {
         if (userInfo) {
+            dispatch(getUserCurrent())
             history('/account')
         }
-    }, [history, userInfo])
+    }, [dispatch, history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()

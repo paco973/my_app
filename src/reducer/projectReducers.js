@@ -40,9 +40,8 @@ export const projectListReducer = (state = { projects: [] }, action) => {
         case PROJECT_LIST_SUCCESS:
             return {
                 loading: false,
-                projects: action.payload.projects,
-                page: action.payload.page,
-                pages: action.payload.pages
+                projects: action.payload,
+
             }
 
         case PROJECT_LIST_FAIL:
@@ -55,16 +54,16 @@ export const projectListReducer = (state = { projects: [] }, action) => {
 
 
 
-export const projectDetailsReducer = (state = { product: { reviews: [] } }, action) => {
+export const projectDetailsReducer = (state =  {} , action) => {
     switch (action.type) {
         case PROJECT_DETAILS_REQUEST:
-            return { loading: true, ...state }
+            return { loading: true, success:false}
 
         case PROJECT_DETAILS_SUCCESS:
-            return { loading: false, project: action.payload }
+            return { loading: false, project: action.payload, success:true }
 
         case PROJECT_DETAILS_FAIL:
-            return { loading: false, error: action.payload }
+            return { loading: false, error: action.payload, success:false }
 
         default:
             return state
@@ -151,20 +150,5 @@ export const projectReviewCreateReducer = (state = {}, action) => {
 }
 
 
-export const projectTopRatedReducer = (state = { projects: [] }, action) => {
-    switch (action.type) {
-        case PROJECT_TOP_REQUEST:
-            return { loading: true, projects: [] }
-
-        case PROJECT_TOP_SUCCESS:
-            return { loading: false, projects: action.payload, }
-
-        case PROJECT_TOP_FAIL:
-            return { loading: false, error: action.payload }
-
-        default:
-            return state
-    }
-}
 
 

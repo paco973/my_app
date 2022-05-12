@@ -1,9 +1,32 @@
-import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {Project} from "../developper/component/Project";
+import {ProjectList} from "../developper/component/PorjectList";
+import Loader from "../../component/Loader";
+import {Message} from "../../component/Message";
+import {listProject} from "../../action/projectActions";
+
+
+
 
 export function Projects() {
-    const bold = {fontWeight: 'bold'
-}
+
+    const dispatch = useDispatch()
+    const projectList = useSelector(state => state.projectList)
+    const { loading, error, projects } = projectList
+
+
+    useEffect(() => {
+      if (projects >= 0){
+          dispatch(listProject())
+      }
+    }, [dispatch, projects, error, loading]);
+
+
+
+
     return <main className="projects">
+
         <section className="hero-section text-center">
             <div className="container container--narrow">
                 <div className="hero-section__box">
@@ -22,36 +45,16 @@ export function Projects() {
                 </div>
             </div>
         </section>
-
-        <section className="projectsList">
+        {error && <Message>{error}</Message>}
+        { loading ? <Loader/> :<section className="projectsList">
             <div className="container">
                 <div className="grid grid--three">
-
-
-                    <div className="column">
-                        <div className="card project">
-                            <Link to="" className="project">
-                                <img className="project__thumbnail" src="jnnjed.png" alt="project thumbnail"/>
-                                <div className="card__body">
-                                    <h3 className="project__title">TITRE</h3>
-                                    <p><Link className="project__author" to="#">By
-                                        PACO DJO</Link>
-                                    </p>
-                                    <p className="project--rating">
-                                        <span style={bold}>12%</span> Positive
-                                        Feedback (12) Vote(s)
-                                    </p>
-                                    <div className="project__tags">
-                                        <span className="tag tag--pill tag--main">
-                                        <small>,k,kkedknejdnejdenjde</small>
-                                    </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
+                    <ProjectList>
+                        {projects ? projects.map(project => <Project key={project.id} project={project} /> ): ''}
+                    </ProjectList>
                 </div>
             </div>
-        </section>
+        </section>}
+
     </main>
 }

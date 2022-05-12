@@ -6,9 +6,6 @@ export function PorjectForm(){
                 <br/>
 
                     <form className="form" method="POST" encType="multipart/form-data">
-
-
-
                         <div className="form__field">
                             <label htmlFor="formInput#text">field.label</label>
                             field

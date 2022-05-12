@@ -1,24 +1,42 @@
+import {useDispatch} from "react-redux";
+import {deleteSkillUser} from "../../../action/skillActions";
+import {getUserCurrent} from "../../../action/userActions";
+import {deleteProject} from "../../../action/projectActions";
+import {Link} from "react-router-dom";
+
 export function Myproject({project})
 {
+
+    const dispatch = useDispatch()
+
+    const deleteHandler = (id) => {
+        if (window.confirm('Are you sure you want to delete this skill?')) {
+            dispatch(deleteProject(id))
+
+            dispatch(getUserCurrent())
+        }
+    }
     return <tr>
         <td className="settings__thumbnail">
-            <a href=""><img src={project.image}
-                            alt={project.title}/></a>
+            <Link to={`/project/${project.id}`}><img src={project.image}
+                            alt={project.title}/></Link>
         </td>
         <td className="settings__tableInfo">
-            <a href="">{project.title}</a>
+            <Link to={`/project/${project.id}`} >
+                {project.title}
+            </Link>
             <p>
                 {project.description}
             </p>
         </td>
         <td className="settings__tableActions">
-            <a className="tag tag--pill tag--main settings__btn"
-               href=""><i
-                className="im im-edit"></i> Edit</a>
-            <a className="tag tag--pill tag--main settings__btn"
-               href=""><i
+            <Link className="tag tag--pill tag--main settings__btn"
+                  to={`/account/editProject/${project.id}`}><i
+                className="im im-edit"></i> Edit</Link>
+            <button className="tag tag--pill tag--main settings__btn"
+             onClick={() => deleteHandler(project.id)}><i
                 className="im im-x-mark-circle-o"></i>
-                Delete</a>
+                Delete</button>
         </td>
     </tr>
 }

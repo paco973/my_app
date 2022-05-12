@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
-import { updateUserProfile} from "../../action/userActions";
+import {getUserCurrent, updateUserProfile} from "../../action/userActions";
 import {useDispatch, useSelector} from "react-redux";
 import Loader from "../../component/Loader";
 import {useNavigate} from "react-router-dom";
 import {USER_UPDATE_PROFILE_RESET} from "../../constant/userConstant";
 import {deleteSkillUser} from "../../action/skillActions";
+import {Message} from "../../component/Message";
 
 
 
@@ -20,10 +21,11 @@ export function ProfileForm(){
     const [location, setLocation] = useState(user ?  user.location ? user.location :'':'')
     const [bio, setBio] = useState(user ? user.bio ? user.bio : '':'')
     const [photo, setPhoto] = useState(user ? user.photo? user.photo:'' :'')
+    const [description, setDescription] = useState(user ? user.description? user.description:'' :'')
 
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
-    const { success } = userUpdateProfile
+    const { success, error } = userUpdateProfile
 
 
 
@@ -33,10 +35,10 @@ export function ProfileForm(){
         } else {
             if (!user || !user.username || success || userInfo.user.id !== user.id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
-                // dispatch(getUserDetails())
+                dispatch(getUserCurrent())
             }
         }
-    }, [dispatch, history, userInfo, user, success])
+    }, [dispatch, history, userInfo, user, success, error])
 
 
     const submitHandler = (e) => {
@@ -45,14 +47,15 @@ export function ProfileForm(){
             user.location = location
             user.photo = photo
             user.bio = bio
-
+user.description = description
             dispatch(updateUserProfile(user))
         }
     }
 
 
     return<main className="formPage my-xl">
-
+        {success && <Message  variant='succes'>profile updated</Message>}
+        {success && <Message  variant='succes'>{error}</Message>}
         {  location !== null ?  <div className="content-box">
             <div className="formWrapper">
                 <a className="backButton" href="www.pacodjo.fr"><i className="im im-angle-left"></i></a>
@@ -67,14 +70,19 @@ export function ProfileForm(){
                     </div>
 
                     <div className="form__field">
-                        <label htmlFor="formInput#text">bio</label>
-                        <input required value={bio}     onChange={(e) => setBio(e.target.value)} className="input input--text" type="text"/>
+                        <label htmlFor="formInput#text">Description</label>
+                        <input required value={description}     onChange={(e) => setDescription(e.target.value)} className="input input--text" type="text"/>
                     </div>
 
 
                     <div className="form__field">
                         <label htmlFor="formInput#text">Photo</label>
                         <input required value={photo}     onChange={(e) => setPhoto(e.target.value)} className="input input--text" type="text"/>
+                    </div>
+
+                    <div className="form__field">
+                        <label htmlFor="formInput#text">Bio</label>
+                        <textarea required value={bio}  rows={10}   onChange={(e) => setBio(e.target.value)} className="input input--text" type="text"/>
                     </div>
 
 

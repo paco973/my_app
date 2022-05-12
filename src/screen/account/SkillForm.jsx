@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {createSkill} from "../../action/skillActions";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,18 +13,18 @@ export function SkillForm() {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
 
-
+    const history = useNavigate()
     const skillCreate = useSelector(state => state.skillCreate)
     const {error, loading, success, skill} = skillCreate
 
 
-
     useEffect(() => {
 
-if (success){
-    dispatch(getUserCurrent())
-}
-    }, [dispatch, error, loading, skill, success,])
+        if (success) {
+            dispatch(getUserCurrent())
+            history('/account')
+        }
+    }, [dispatch, error, history, loading, skill, success])
 
 
     const submitHandler = (e) => {
@@ -36,7 +36,7 @@ if (success){
         {error && <Message variant='danger'>{error}</Message>}
         {loading ? <Loader/> : <div className="content-box">
             <div className="formWrapper">
-                <Link className="backButton" to={"account"}><i className="im im-angle-left"></i></Link>
+                <Link className="backButton" to={"/account"}><i className="im im-angle-left">Retour</i></Link>
                 <br/>
 
                 <form className="form" method="POST" onSubmit={submitHandler}>

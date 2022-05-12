@@ -1,6 +1,10 @@
 import {Link} from "react-router-dom";
+import {truncateString} from "../../../constant/functionConstant";
+
+
 
 export  function Dev({profile}) {
+
     return (<div className="column card">
         <div className="dev">
             <Link  className="card__body" to={`/developer/${profile.id}`} >
@@ -9,11 +13,11 @@ export  function Dev({profile}) {
                          src={profile.photo} alt={profile.username}/>
                     <div className="dev__meta">
                         <h3>{profile.username}</h3>
-                        <h5>{profile.title}</h5>
+                        <h5>{profile.description}</h5>
                     </div>
                 </div>
                 <p className="dev__info">
-                    {profile.bio}
+                    {truncateString(profile.bio , 79)}
                 </p>
                 <div className="dev__skills">
                     { profile.skills.map(skill => (
